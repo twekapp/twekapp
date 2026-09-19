@@ -278,15 +278,33 @@ scripts/dev.mjs      API + Vite together
 
 ---
 
-## Deploy (when you host)
+## Deploy (Vercel)
 
-1. Build the frontend (`npm run build`) and serve `dist`.
-2. Run `node server/index.js` as a long-lived process (or a small Node host).
-3. Proxy `/api` to that process.
-4. Put the same env vars on the host. Keep `X_PULL=0` until go-live.
-5. Add the production domain to Privy.
-6. Set `TWEK_COOKIE_SECURE=1`.
-7. After the token exists, set `CONFIG.ca` in `src/config.js` and rebuild.
+The app is set up for [Vercel](https://vercel.com): Vite build + one serverless function for `/api`.
+
+1. Import [twekapp/twekapp](https://github.com/twekapp/twekapp) in Vercel (login as **twekapp**).
+2. Framework: Vite. Root: repo root. Build: `npm run build`. Output: `dist`.
+3. **Settings → Environment Variables** (Production). Do **not** prefix server secrets with `VITE_`.
+
+| Name | Value |
+| --- | --- |
+| `VITE_PRIVY_APP_ID` | Privy app id |
+| `X_PULL` | `0` until launch |
+| `X_PULL_MAX` | `10` |
+| `X_PULL_MINUTES` | `30` |
+| `X_BEARER_TOKEN` | X bearer (ok to add now; unused while `X_PULL=0`) |
+| `SUPABASE_URL` | Project URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | service_role only |
+| `TWEK_ADMIN_KEY` | same Dev key as local |
+| `TWEK_POOL_USD` | `50` |
+| `TWEK_COOKIE_SECURE` | `1` |
+| `NODE_ENV` | `production` (Vercel sets this) |
+
+4. Deploy. Open `/api/health` — expect `"db":"supabase"`.
+5. Privy → add the Vercel domain (`*.vercel.app` and later the real domain) to allowed origins / redirect URLs.
+6. After the token exists, set `CONFIG.ca` and redeploy.
+
+Vercel has **no always-on timer**. Auto X pull every 30 minutes does not run there. Until launch that is what you want (`X_PULL=0`). After go-live, Pull now still works; add a Vercel Cron later if you want the interval.
 
 Suggested go-live order: **host → token + CA → one official `$TWEK` tweet from [@Twek_App](https://x.com/Twek_App) → `X_PULL=1` → one Pull now → pay the first row by hand**.
 

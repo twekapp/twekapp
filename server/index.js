@@ -153,7 +153,7 @@ async function refresh({ query, mode = 'manual' } = {}) {
   return withScores(next, { pulled: fresh.length })
 }
 
-const server = createServer(async (req, res) => {
+export async function handleApi(req, res) {
   const url = new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`)
   const path = url.pathname
 
@@ -353,22 +353,25 @@ const server = createServer(async (req, res) => {
       (err.code === 'NO_TOKEN' || err.code === 'NO_SUPABASE' ? 400 : 500)
     send(res, status, { error: err.message || 'Server error' })
   }
-})
+}
 
-const dbStatus = await bootDatabase()
+if (!process.env.VERCEL) {
+  const server = createServer(handleApi)
+  const dbStatus = await bootDatabase()
 
-server.listen(PORT, () => {
-  console.log(
-    `TWEK api http://localhost:${PORT}  x=${configured() ? 'on' : 'missing X_BEARER_TOKEN'}  db=${dbStatus.db}`,
-  )
-  if (!dbStatus.ok) console.warn(dbStatus.error)
-})
+  server.listen(PORT, () => {
+    console.log(
+      `TWEK api http://localhost:${PORT}  x=${configured() ? 'on' : 'missing X_BEARER_TOKEN'}  db=${dbStatus.db}`,
+    )
+    if (!dbStatus.ok) console.warn(dbStatus.error)
+  })
 
-if (xPullEnabled() && configured() && supabaseConfigured() && dbStatus.ok) {
-  setInterval(() => {
-    refresh({ mode: 'auto' }).catch((err) => console.warn('X pull failed:', err.message))
-  }, PULL_MINUTES * 60_000)
-  console.log(`X pull: manual first, then every ${PULL_MINUTES}m, max ${PULL_MAX}, since_id on`)
-} else {
-  console.log('X pull: paused (X_PULL=0). Search and lookups are off. Credits stay put.')
+  if (xPullEnabled() && configured() && supabaseConfigured() && dbStatus.ok) {
+    setInterval(() => {
+      refresh({ mode: 'auto' }).catch((err) => console.warn('X pull failed:', err.message))
+    }, PULL_MINUTES * 60_000)
+    console.log(`X pull: manual first, then every ${PULL_MINUTES}m, max ${PULL_MAX}, since_id on`)
+  } else {
+    console.log('X pull: paused (X_PULL=0). Search and lookups are off. Credits stay put.')
+  }
 }
