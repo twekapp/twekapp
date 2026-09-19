@@ -237,6 +237,7 @@ export async function handleApi(req, res) {
       }
       const user = await linkWallet(body.handle, body.wallet, {
         overwrite: isAdminRequest(req),
+        avatar: body.avatar,
       })
       if (!user) return send(res, 400, { error: 'Need handle and wallet.' })
       await persistAfterLink(body.handle)

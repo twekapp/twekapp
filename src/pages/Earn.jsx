@@ -22,7 +22,7 @@ function loadMine() {
 }
 
 export function Earn() {
-  const { authenticated, xHandle, xName, address, linkX, login, authNote } = useAuth()
+  const { authenticated, xHandle, xName, xAvatar, address, linkX, login, authNote } = useAuth()
   const { pull } = useLiveTweets()
   const [text, setText] = useState(CONFIG.tweetTemplate)
   const [mine, setMine] = useState(loadMine)
@@ -98,7 +98,7 @@ export function Earn() {
       <section className="panel mt-10 p-5 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <Avatar seed={xHandle || 'twek'} className="h-11 w-11" />
+            <Avatar seed={xHandle || 'twek'} src={xAvatar} className="h-11 w-11" />
             <div>
               <p className="text-sm font-semibold">{xHandle ? `@${xHandle}` : 'Not linked'}</p>
               <p className="text-xs text-mute">

@@ -28,6 +28,7 @@ const emptyAuth = {
   shortAddress: null,
   xHandle: null,
   xName: null,
+  xAvatar: null,
   usingEmbedded: false,
   privyAuthenticated: false,
   authNote: '',
@@ -41,19 +42,33 @@ function shortAddr(address) {
   return `${address.slice(0, 4)}…${address.slice(-4)}`
 }
 
+function twitterAvatar(account) {
+  const raw = account?.profilePictureUrl || account?.profile_picture_url || null
+  if (!raw) return null
+  return String(raw).replace(/_normal(\.[a-zA-Z0-9]+)$/i, '_x96$1')
+}
+
 function twitterFromUser(user) {
-  if (!user) return { handle: null, name: null }
+  if (!user) return { handle: null, name: null, avatar: null }
   const named = user.twitter
   if (named?.username) {
-    return { handle: named.username, name: named.name || named.username }
+    return {
+      handle: named.username,
+      name: named.name || named.username,
+      avatar: twitterAvatar(named),
+    }
   }
   const linked = user.linkedAccounts?.find(
     (a) => a.type === 'twitter_oauth' || a.type === 'twitter',
   )
   if (linked?.username) {
-    return { handle: linked.username, name: linked.name || linked.username }
+    return {
+      handle: linked.username,
+      name: linked.name || linked.username,
+      avatar: twitterAvatar(linked),
+    }
   }
-  return { handle: null, name: null }
+  return { handle: null, name: null, avatar: null }
 }
 
 function getInjectedSolana() {
@@ -113,8 +128,8 @@ function PrivyBridge({ children }) {
 
   useEffect(() => {
     if (!address || !x.handle) return
-    linkUser({ handle: x.handle, wallet: address }).catch(() => {})
-  }, [address, x.handle])
+    linkUser({ handle: x.handle, wallet: address, avatar: x.avatar }).catch(() => {})
+  }, [address, x.handle, x.avatar])
 
   const value = useMemo(() => {
 
@@ -180,6 +195,7 @@ function PrivyBridge({ children }) {
       shortAddress: shortAddr(address),
       xHandle: x.handle,
       xName: x.name,
+      xAvatar: x.avatar,
       usingEmbedded: picked.embedded,
       privyAuthenticated: authenticated,
       authNote,

@@ -98,7 +98,19 @@ export function isSolanaAddress(wallet) {
   return /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(String(wallet || '').trim())
 }
 
-export async function linkWallet(handle, wallet, { overwrite = false } = {}) {
+function safeTwimg(value) {
+  try {
+    const url = new URL(String(value || ''))
+    if ((url.protocol === 'http:' || url.protocol === 'https:') && url.hostname.endsWith('twimg.com')) {
+      return url.href
+    }
+  } catch {
+    // ignore
+  }
+  return null
+}
+
+export async function linkWallet(handle, wallet, { overwrite = false, avatar } = {}) {
   const clean = String(handle || '').replace(/^@/, '').trim()
   const next = String(wallet || '').trim()
   if (!clean || !isSolanaAddress(next)) return null
@@ -108,7 +120,7 @@ export async function linkWallet(handle, wallet, { overwrite = false } = {}) {
     err.status = 409
     throw err
   }
-  await upsertUser({ handle: clean, wallet: next })
+  await upsertUser({ handle: clean, wallet: next, avatar: safeTwimg(avatar) })
   await run(
     getClient()
       .from('users')
