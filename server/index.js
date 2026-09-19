@@ -1,3 +1,4 @@
+import './polyfill-ws.js'
 import { createServer } from 'node:http'
 import {
   adminConfigured,
