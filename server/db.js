@@ -27,11 +27,24 @@ function wrap(error) {
   return err
 }
 
+function NoopWebSocket() {
+  this.readyState = 3
+  this.close = () => {}
+  this.send = () => {}
+  this.addEventListener = () => {}
+  this.removeEventListener = () => {}
+}
+NoopWebSocket.CONNECTING = 0
+NoopWebSocket.OPEN = 1
+NoopWebSocket.CLOSING = 2
+NoopWebSocket.CLOSED = 3
+
 export function getClient() {
   if (!supabaseConfigured()) throw missingSupabase()
   if (!client) {
     client = createClient(supabaseUrl(), supabaseServiceKey(), {
       auth: { persistSession: false, autoRefreshToken: false },
+      realtime: { transport: NoopWebSocket },
     })
   }
   return client
