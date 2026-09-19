@@ -129,13 +129,17 @@ function PrivyBridge({ children }) {
       xName: x.name,
       login: () => connect(),
       logout: () => disconnect(),
-      linkX: () =>
-        authenticated
-          ? linkTwitter()
-          : login({
-              loginMethods: ['twitter'],
-              walletChainType: 'solana-only',
-            }),
+      linkX: async () => {
+        try {
+          if (authenticated) {
+            await linkTwitter()
+            return
+          }
+          await login({ loginMethods: ['twitter'] })
+        } catch (err) {
+          console.warn('X login failed:', err)
+        }
+      },
     }
   }, [ready, authenticated, address, x, wallets, injected, connectWallet, login, logout, linkTwitter])
 
