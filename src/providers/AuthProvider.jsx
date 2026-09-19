@@ -28,6 +28,7 @@ const emptyAuth = {
   shortAddress: null,
   xHandle: null,
   xName: null,
+  usingEmbedded: false,
   login: () => {},
   logout: () => {},
   linkX: () => {},
@@ -64,11 +65,30 @@ function publicKeyOf(value) {
   return value.toBase58?.() || value.toString?.() || null
 }
 
+function isEmbeddedWallet(wallet) {
+  const client = String(wallet?.walletClientType || '')
+  const connector = String(wallet?.connectorType || '')
+  return client === 'privy' || client === 'privy-v2' || connector === 'embedded'
+}
+
+function pickPayAddress(wallets, injected, user) {
+  const external = wallets.find((wallet) => wallet.address && !isEmbeddedWallet(wallet))
+  if (external?.address) return { address: external.address, embedded: false }
+  if (injected?.address) return { address: injected.address, embedded: false }
+  const embedded = wallets.find((wallet) => wallet.address)
+  if (embedded?.address) return { address: embedded.address, embedded: true }
+  if (user?.wallet?.address) {
+    return { address: user.wallet.address, embedded: isEmbeddedWallet(user.wallet) }
+  }
+  return { address: null, embedded: false }
+}
+
 function PrivyBridge({ children }) {
   const { ready, authenticated, user, login, logout, linkTwitter, connectWallet } = usePrivy()
   const { wallets } = useSolanaWallets()
   const [injected, setInjected] = useState(null)
-  const address = wallets[0]?.address || injected?.address || user?.wallet?.address || null
+  const picked = pickPayAddress(wallets, injected, user)
+  const address = picked.address
   const x = twitterFromUser(user)
 
   useEffect(() => {
@@ -79,25 +99,28 @@ function PrivyBridge({ children }) {
   const value = useMemo(() => {
 
     async function connect() {
-      const provider = getInjectedSolana()
-      if (provider?.connect) {
+      try {
+        if (authenticated) {
+          await connectWallet({
+            walletChainType: 'solana-only',
+            walletList: SOLANA_WALLET_LIST,
+            description: 'Connect your main Solana wallet',
+          })
+          return
+        }
+        await login({ loginMethods: ['wallet'] })
+      } catch (err) {
+        if (err?.code === 4001 || err?.message?.includes('User rejected')) return
+        const provider = getInjectedSolana()
+        if (!provider?.connect) return
         try {
           const res = await provider.connect()
           const next = publicKeyOf(res?.publicKey) || publicKeyOf(provider.publicKey)
-          if (next) {
-            setInjected({ address: next, provider })
-            return
-          }
-        } catch (err) {
-          if (err?.code === 4001 || err?.message?.includes('User rejected')) return
+          if (next) setInjected({ address: next, provider })
+        } catch (injectedErr) {
+          if (injectedErr?.code === 4001 || injectedErr?.message?.includes('User rejected')) return
         }
       }
-
-      connectWallet({
-        walletChainType: 'solana-only',
-        walletList: SOLANA_WALLET_LIST,
-        description: 'Connect a Solana wallet',
-      })
     }
 
     async function disconnect() {
@@ -127,21 +150,22 @@ function PrivyBridge({ children }) {
       shortAddress: shortAddr(address),
       xHandle: x.handle,
       xName: x.name,
+      usingEmbedded: picked.embedded,
       login: () => connect(),
       logout: () => disconnect(),
       linkX: async () => {
         try {
-          if (authenticated) {
-            await linkTwitter()
+          if (!authenticated) {
+            await login({ loginMethods: ['wallet'] })
             return
           }
-          await login({ loginMethods: ['twitter'] })
+          await linkTwitter()
         } catch (err) {
           console.warn('X login failed:', err)
         }
       },
     }
-  }, [ready, authenticated, address, x, wallets, injected, connectWallet, login, logout, linkTwitter])
+  }, [ready, authenticated, address, picked.embedded, x, wallets, injected, connectWallet, login, logout, linkTwitter])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
@@ -168,7 +192,7 @@ export function AuthProvider({ children }) {
         loginMethods: ['wallet', 'twitter'],
         embeddedWallets: {
           solana: {
-            createOnLogin: 'users-without-wallets',
+            createOnLogin: 'off',
           },
         },
         externalWallets: {

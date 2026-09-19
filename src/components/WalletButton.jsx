@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useAuth } from '../providers/AuthProvider'
 
 export function WalletButton({ className = '', compact = false, menuSide = 'left' }) {
-  const { configured, ready, authenticated, shortAddress, xHandle, login, logout, linkX } =
+  const { configured, ready, authenticated, shortAddress, xHandle, usingEmbedded, login, logout, linkX } =
     useAuth()
   const [open, setOpen] = useState(false)
   const wrap = useRef(null)
@@ -74,6 +74,18 @@ export function WalletButton({ className = '', compact = false, menuSide = 'left
             ) : (
               <button type="button" onClick={linkX} className="mt-2 text-sm text-signal hover:underline">
                 Link X account
+              </button>
+            )}
+            {usingEmbedded && (
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false)
+                  login()
+                }}
+                className="mt-2 text-sm text-signal hover:underline"
+              >
+                Use your main wallet
               </button>
             )}
           </div>

@@ -90,7 +90,7 @@ export function Earn() {
       </p>
 
       <div className="stagger mt-8 grid gap-3 sm:grid-cols-3">
-        <Step n="01" title="Wallet" body="Privy for Phantom, Solflare, or an embedded wallet." />
+        <Step n="01" title="Wallet" body="Connect your main Phantom or Solflare wallet, then link X." />
         <Step n="02" title="Cashtag" body="Original $TWEK posts outrank raids and copy-paste." />
         <Step n="03" title="Payout" body="Hourly settlement. Dust under $0.50 is skipped." />
       </div>
