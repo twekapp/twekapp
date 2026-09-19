@@ -72,10 +72,11 @@ function isEmbeddedWallet(wallet) {
 }
 
 function pickPayAddress(wallets, injected, user) {
-  const external = wallets.find((wallet) => wallet.address && !isEmbeddedWallet(wallet))
+  const list = Array.isArray(wallets) ? wallets : []
+  const external = list.find((wallet) => wallet.address && !isEmbeddedWallet(wallet))
   if (external?.address) return { address: external.address, embedded: false }
   if (injected?.address) return { address: injected.address, embedded: false }
-  const embedded = wallets.find((wallet) => wallet.address)
+  const embedded = list.find((wallet) => wallet.address)
   if (embedded?.address) return { address: embedded.address, embedded: true }
   if (user?.wallet?.address) {
     return { address: user.wallet.address, embedded: isEmbeddedWallet(user.wallet) }
@@ -84,8 +85,9 @@ function pickPayAddress(wallets, injected, user) {
 }
 
 function PrivyBridge({ children }) {
-  const { ready, authenticated, user, login, logout, linkTwitter, connectWallet } = usePrivy()
-  const { wallets } = useSolanaWallets()
+  const { ready, authenticated, user, logout, linkTwitter, connectWallet, linkWallet } = usePrivy()
+  const solana = useSolanaWallets()
+  const wallets = Array.isArray(solana.wallets) ? solana.wallets : []
   const [injected, setInjected] = useState(null)
   const picked = pickPayAddress(wallets, injected, user)
   const address = picked.address
@@ -98,28 +100,38 @@ function PrivyBridge({ children }) {
 
   const value = useMemo(() => {
 
+    async function tryInjected() {
+      const provider = getInjectedSolana()
+      if (!provider?.connect) return null
+      try {
+        const res = await provider.connect()
+        const next = publicKeyOf(res?.publicKey) || publicKeyOf(provider.publicKey)
+        if (next) {
+          setInjected({ address: next, provider })
+          return next
+        }
+      } catch (err) {
+        if (err?.code === 4001 || err?.message?.includes('User rejected')) return null
+      }
+      return null
+    }
+
     async function connect() {
+      const walletModal = {
+        walletChainType: 'solana-only',
+        walletList: SOLANA_WALLET_LIST,
+        description: 'Connect your main Solana wallet',
+      }
       try {
         if (authenticated) {
-          await connectWallet({
-            walletChainType: 'solana-only',
-            walletList: SOLANA_WALLET_LIST,
-            description: 'Connect your main Solana wallet',
-          })
+          await linkWallet(walletModal)
           return
         }
-        await login({ loginMethods: ['wallet'] })
+        await tryInjected()
+        await connectWallet(walletModal)
       } catch (err) {
         if (err?.code === 4001 || err?.message?.includes('User rejected')) return
-        const provider = getInjectedSolana()
-        if (!provider?.connect) return
-        try {
-          const res = await provider.connect()
-          const next = publicKeyOf(res?.publicKey) || publicKeyOf(provider.publicKey)
-          if (next) setInjected({ address: next, provider })
-        } catch (injectedErr) {
-          if (injectedErr?.code === 4001 || injectedErr?.message?.includes('User rejected')) return
-        }
+        await tryInjected()
       }
     }
 
@@ -156,7 +168,7 @@ function PrivyBridge({ children }) {
       linkX: async () => {
         try {
           if (!authenticated) {
-            await login({ loginMethods: ['wallet'] })
+            await connect()
             return
           }
           await linkTwitter()
@@ -165,7 +177,7 @@ function PrivyBridge({ children }) {
         }
       },
     }
-  }, [ready, authenticated, address, picked.embedded, x, wallets, injected, connectWallet, login, logout, linkTwitter])
+  }, [ready, authenticated, address, picked.embedded, x, wallets, injected, connectWallet, linkWallet, logout, linkTwitter])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
