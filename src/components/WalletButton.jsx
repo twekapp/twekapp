@@ -41,7 +41,7 @@ export function WalletButton({ className = '', compact = false, menuSide = 'left
     )
   }
 
-  if (!authenticated && !shortAddress) {
+  if (!shortAddress) {
     return (
       <button
         type="button"

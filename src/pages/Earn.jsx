@@ -102,7 +102,12 @@ export function Earn() {
             <div>
               <p className="text-sm font-semibold">{xHandle ? `@${xHandle}` : 'Not linked'}</p>
               <p className="text-xs text-mute">
-                {xName ? xName : 'Connect wallet, then link X'} · {earned} worth paying this session
+                {xHandle && !address
+                  ? 'X is linked. Connect your main wallet to get paid.'
+                  : xName
+                    ? xName
+                    : 'Connect wallet, then link X'}{' '}
+                · {earned} worth paying this session
               </p>
             </div>
           </div>
