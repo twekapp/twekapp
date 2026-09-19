@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { PrivyProvider, useLinkAccount, usePrivy } from '@privy-io/react-auth'
+import { PrivyProvider, useLinkAccount, useLoginWithOAuth, usePrivy } from '@privy-io/react-auth'
 import { linkUser } from '../lib/api'
 import { toSolanaWalletConnectors, useWallets as useSolanaWallets } from '@privy-io/react-auth/solana'
 import { createSolanaRpc, createSolanaRpcSubscriptions } from '@solana/kit'
@@ -101,6 +101,9 @@ function PrivyBridge({ children }) {
     onError: (err) => setAuthNote(explainAuthError(err)),
     onSuccess: () => setAuthNote(''),
   })
+  const { initOAuth } = useLoginWithOAuth({
+    onError: (err) => setAuthNote(explainAuthError(err)),
+  })
   const solana = useSolanaWallets()
   const wallets = Array.isArray(solana.wallets) ? solana.wallets : []
   const [injected, setInjected] = useState(null)
@@ -184,19 +187,18 @@ function PrivyBridge({ children }) {
       logout: () => disconnect(),
       linkX: () => {
         setAuthNote('')
-        if (!authenticated) {
-          setAuthNote('Connect your main wallet first, then link X.')
-          connect()
-          return
-        }
         try {
-          linkTwitter()
+          if (authenticated) {
+            linkTwitter()
+            return
+          }
+          initOAuth({ provider: 'twitter' })
         } catch (err) {
           setAuthNote(explainAuthError(err))
         }
       },
     }
-  }, [ready, authenticated, address, picked.embedded, x, wallets, injected, connectWallet, linkWallet, logout, linkTwitter, authNote])
+  }, [ready, authenticated, address, picked.embedded, x, wallets, injected, connectWallet, linkWallet, logout, linkTwitter, initOAuth, authNote])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

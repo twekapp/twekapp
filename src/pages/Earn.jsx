@@ -22,7 +22,7 @@ function loadMine() {
 }
 
 export function Earn() {
-  const { authenticated, xHandle, xName, address, linkX, login, privyAuthenticated, authNote } = useAuth()
+  const { authenticated, xHandle, xName, address, linkX, login, authNote } = useAuth()
   const { pull } = useLiveTweets()
   const [text, setText] = useState(CONFIG.tweetTemplate)
   const [mine, setMine] = useState(loadMine)
@@ -108,7 +108,7 @@ export function Earn() {
           </div>
           <div className="flex flex-wrap gap-2">
             <WalletButton />
-            {privyAuthenticated && !xHandle && (
+            {!xHandle && (
               <button type="button" onClick={linkX} className="btn btn-ghost">
                 Link X
               </button>

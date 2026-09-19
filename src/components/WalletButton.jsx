@@ -9,7 +9,6 @@ export function WalletButton({ className = '', compact = false, menuSide = 'left
     shortAddress,
     xHandle,
     usingEmbedded,
-    privyAuthenticated,
     login,
     logout,
     linkX,
@@ -81,12 +80,10 @@ export function WalletButton({ className = '', compact = false, menuSide = 'left
             <p className="mt-1 font-mono text-sm">{shortAddress}</p>
             {xHandle ? (
               <p className="mt-1 text-sm text-gold">@{xHandle}</p>
-            ) : privyAuthenticated ? (
+            ) : (
               <button type="button" onClick={linkX} className="mt-2 text-sm text-signal hover:underline">
                 Link X account
               </button>
-            ) : (
-              <p className="mt-2 text-xs leading-5 text-mute">Connect via Privy first, then link X.</p>
             )}
             {usingEmbedded && (
               <button
