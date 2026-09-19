@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { PrivyProvider, usePrivy } from '@privy-io/react-auth'
+import { PrivyProvider, useLinkAccount, usePrivy } from '@privy-io/react-auth'
 import { linkUser } from '../lib/api'
 import { toSolanaWalletConnectors, useWallets as useSolanaWallets } from '@privy-io/react-auth/solana'
 import { createSolanaRpc, createSolanaRpcSubscriptions } from '@solana/kit'
@@ -29,6 +29,8 @@ const emptyAuth = {
   xHandle: null,
   xName: null,
   usingEmbedded: false,
+  privyAuthenticated: false,
+  authNote: '',
   login: () => {},
   logout: () => {},
   linkX: () => {},
@@ -84,8 +86,21 @@ function pickPayAddress(wallets, injected, user) {
   return { address: null, embedded: false }
 }
 
+function explainAuthError(err) {
+  const msg = String(err?.message || err || '')
+  if (/already|linked|exists|taken|associated/i.test(msg)) {
+    return 'This X is already tied to another login. Disconnect, sign in with X, then Use your main wallet.'
+  }
+  return msg || 'Could not link X. Try again.'
+}
+
 function PrivyBridge({ children }) {
-  const { ready, authenticated, user, logout, linkTwitter, connectWallet, linkWallet } = usePrivy()
+  const { ready, authenticated, user, logout, connectWallet, linkWallet } = usePrivy()
+  const [authNote, setAuthNote] = useState('')
+  const { linkTwitter } = useLinkAccount({
+    onError: (err) => setAuthNote(explainAuthError(err)),
+    onSuccess: () => setAuthNote(''),
+  })
   const solana = useSolanaWallets()
   const wallets = Array.isArray(solana.wallets) ? solana.wallets : []
   const [injected, setInjected] = useState(null)
@@ -163,21 +178,25 @@ function PrivyBridge({ children }) {
       xHandle: x.handle,
       xName: x.name,
       usingEmbedded: picked.embedded,
+      privyAuthenticated: authenticated,
+      authNote,
       login: () => connect(),
       logout: () => disconnect(),
-      linkX: async () => {
+      linkX: () => {
+        setAuthNote('')
+        if (!authenticated) {
+          setAuthNote('Connect your main wallet first, then link X.')
+          connect()
+          return
+        }
         try {
-          if (!authenticated) {
-            await connect()
-            return
-          }
-          await linkTwitter()
+          linkTwitter()
         } catch (err) {
-          console.warn('X login failed:', err)
+          setAuthNote(explainAuthError(err))
         }
       },
     }
-  }, [ready, authenticated, address, picked.embedded, x, wallets, injected, connectWallet, linkWallet, logout, linkTwitter])
+  }, [ready, authenticated, address, picked.embedded, x, wallets, injected, connectWallet, linkWallet, logout, linkTwitter, authNote])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
