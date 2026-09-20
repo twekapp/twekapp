@@ -3,7 +3,7 @@ export const CONFIG = {
   ticker: '$TWEK',
   handle: 'Twek_App',
   xUrl: 'https://x.com/Twek_App',
-  ca: '',
+  ca: '3WUztmmgYpJQATczBBaqwNxdFoUQXkoTraoPGaxBpump',
   tweetTemplate:
     'Just tweeted $TWEK and they pay you for it. Tweet the ticker, get paid.',
 }

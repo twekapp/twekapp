@@ -29,7 +29,7 @@ The tweet is the claim ticket. The linked Solana wallet is where the money lands
 | --- | --- |
 | **Ticker** | `$TWEK` |
 | **Official X** | [@Twek_App](https://x.com/Twek_App) |
-| **Contract** | Coming soon |
+| **Contract** | [`3WUztmmgYpJQATczBBaqwNxdFoUQXkoTraoPGaxBpump`](https://pump.fun/coin/3WUztmmgYpJQATczBBaqwNxdFoUQXkoTraoPGaxBpump) |
 | **Chain** | Solana |
 | **Min payout** | `$0.50` (dust is skipped) |
 | **Hourly pool** | `TWEK_POOL_USD` (default `$50`) |
@@ -302,7 +302,7 @@ The app is set up for [Vercel](https://vercel.com): Vite build + one serverless 
 
 4. Deploy. Open `/api/health` — expect `"db":"supabase"`.
 5. Privy → add the Vercel domain (`*.vercel.app` and later the real domain) to allowed origins / redirect URLs.
-6. After the token exists, set `CONFIG.ca` and redeploy.
+6. Contract is already in `CONFIG.ca`. After Vercel deploys this commit, the site shows the CA. Keep `X_PULL=0` until launch.
 
 Vercel has **no always-on timer**. Auto X pull every 30 minutes does not run there. Until launch that is what you want (`X_PULL=0`). After go-live, Pull now still works; add a Vercel Cron later if you want the interval.
 
@@ -319,7 +319,7 @@ Suggested go-live order: **host → token + CA → one official `$TWEK` tweet fr
 | X search | Built, **paused** (`X_PULL=0`) until launch |
 | Payment split + Mark paid | Ready |
 | Automatic on-chain send | Not built |
-| Contract address | Coming soon |
+| Contract address | `3WUztmmgYpJQATczBBaqwNxdFoUQXkoTraoPGaxBpump` |
 
 ---
 

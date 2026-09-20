@@ -213,7 +213,9 @@ export function Docs() {
       <section id="token" className="mt-14 scroll-mt-24">
         <h2 className="text-2xl font-extrabold tracking-tight">{CONFIG.ticker}</h2>
         <p className="mt-3 text-sm leading-7 text-mute">
-          Ticker {CONFIG.ticker}. Contract coming soon. Official X is{' '}
+          Ticker {CONFIG.ticker}. Contract{' '}
+          <span className="break-all font-mono text-cream">{CONFIG.ca}</span>
+          . Official X is{' '}
           <a
             href={CONFIG.xUrl}
             target="_blank"
