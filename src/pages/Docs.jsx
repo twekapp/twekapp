@@ -45,9 +45,8 @@ export function Docs() {
         </p>
         <ol className="stagger mt-6 grid gap-3">
           <Step n="1" title="Connect a wallet">
-            Open TWEK and hit <span className="text-cream">Connect wallet</span>. Privy lets you use
-            Phantom, Solflare, or an embedded Solana wallet. This is how we know which account is
-            yours on-chain.
+            Open TWEK and hit <span className="text-cream">Connect wallet</span>. Use Phantom or
+            Solflare — your main Solana wallet. That address is where dollars land.
           </Step>
           <Step n="2" title="Link the X account you will tweet from">
             After the wallet is in, link X. We pay the handle that wrote the tweet, not a wallet
@@ -226,37 +225,14 @@ export function Docs() {
           . The Dev wallet is the budget. The tweet is the claim ticket. Holding the token is not
           required to get paid, and holding it does not pay you by itself. Posting does.
         </p>
-        <div className="panel mt-6 overflow-hidden">
-          <p className="px-5 pt-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-mute">
-            On-chain payout record
+        <div className="panel mt-6 p-5">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-mute">
+            Payout record
           </p>
-          <table className="mt-2 w-full text-left text-sm">
-            <thead>
-              <tr className="border-b border-cream/10 text-[11px] uppercase tracking-[0.12em] text-mute">
-                <th className="px-5 py-3 font-medium">Off</th>
-                <th className="px-5 py-3 font-medium">Len</th>
-                <th className="px-5 py-3 font-medium">Field</th>
-              </tr>
-            </thead>
-            <tbody className="text-cream/75">
-              {[
-                ['0', '8', 'discriminator'],
-                ['8', '32', 'tweet hash'],
-                ['40', '32', 'x handle pda'],
-                ['72', '1', 'scored flag'],
-                ['73', '8', 'impressions'],
-                ['81', '8', 'payout lamports'],
-              ].map((row) => (
-                <tr key={row[2]} className="border-b border-cream/8 last:border-0">
-                  {row.map((cell) => (
-                    <td key={cell} className="px-5 py-3 font-mono text-[13px]">
-                      {cell}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <p className="mt-3 text-sm leading-6 text-mute">
+            Mark paid writes the row in Supabase (amount, wallet, time). On-chain send from the Dev
+            wallet is still manual. There is no on-chain program yet.
+          </p>
         </div>
       </section>
 

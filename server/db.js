@@ -72,7 +72,7 @@ export async function setMeta(key, value) {
 }
 
 export async function upsertUser(user) {
-  const handle = String(user.handle || 'unknown').replace(/^@/, '')
+  const handle = normHandle(user.handle) || 'unknown'
   const prev = await run(
     getClient().from('users').select('*').eq('handle', handle).maybeSingle(),
   )
@@ -94,6 +94,14 @@ export async function upsertUser(user) {
   return handle
 }
 
+export function normHandle(value) {
+  return String(value || '').replace(/^@/, '').trim().toLowerCase()
+}
+
+export function isXHandle(value) {
+  return /^[a-z0-9_]{1,15}$/.test(normHandle(value))
+}
+
 export function isSolanaAddress(wallet) {
   return /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(String(wallet || '').trim())
 }
@@ -111,9 +119,9 @@ function safeTwimg(value) {
 }
 
 export async function linkWallet(handle, wallet, { overwrite = false, avatar } = {}) {
-  const clean = String(handle || '').replace(/^@/, '').trim()
+  const clean = normHandle(handle)
   const next = String(wallet || '').trim()
-  if (!clean || !isSolanaAddress(next)) return null
+  if (!isXHandle(clean) || !isSolanaAddress(next)) return null
   const prev = await getUser(clean)
   if (prev?.wallet && prev.wallet !== next && !overwrite) {
     const err = new Error('This handle already has a wallet. Dev can override.')
@@ -146,7 +154,7 @@ export async function getUser(handle) {
     getClient()
       .from('users')
       .select('*')
-      .eq('handle', String(handle || '').replace(/^@/, ''))
+      .eq('handle', normHandle(handle))
       .maybeSingle(),
   )
 }

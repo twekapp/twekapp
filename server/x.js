@@ -39,7 +39,7 @@ async function xGet(path) {
 function mapUser(user) {
   return {
     name: user?.name || user?.username || 'Unknown',
-    handle: user?.username || 'unknown',
+    handle: String(user?.username || 'unknown').toLowerCase(),
     avatar: user?.profile_image_url || null,
     followers: user?.public_metrics?.followers_count || 0,
     accountCreatedAt: user?.created_at || null,

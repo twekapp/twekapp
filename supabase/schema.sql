@@ -7,7 +7,7 @@ create table if not exists meta (
 );
 
 create table if not exists users (
-  handle text primary key,
+  handle text primary key, -- stored lowercase; X handles are case-insensitive
   name text,
   avatar text,
   followers integer default 0,

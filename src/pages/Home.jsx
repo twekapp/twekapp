@@ -85,7 +85,7 @@ function Hero({ payouts, stats }) {
 
 function HowItWorks() {
   const steps = [
-    { n: '01', title: 'Connect wallet', body: 'Privy opens Phantom, Solflare, or an embedded Solana wallet.' },
+    { n: '01', title: 'Connect wallet', body: 'Privy opens Phantom or Solflare — your main Solana wallet.' },
     { n: '02', title: 'Tweet $TWEK', body: 'Original posts rank higher than raids. One cashtag is the claim ticket.' },
     { n: '03', title: 'Get paid', body: 'Hourly settlement in dollars. Dust under $0.50 is skipped.' },
   ]

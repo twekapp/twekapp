@@ -4,8 +4,6 @@ const RAID_LINES = [
   'lfg $twek',
   'wagmi $twek',
   '$twek',
-  'just tweeted $twek and they pay you for it. tweet the ticker, get paid.',
-  'if you can tweet you can earn. $twek',
   'buy $twek',
   'send it $twek',
 ]

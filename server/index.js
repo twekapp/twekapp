@@ -10,9 +10,11 @@ import {
 import {
   bootDatabase,
   isSolanaAddress,
+  isXHandle,
   linkWallet,
   listPayoutsDetailed,
   markPayoutSent,
+  normHandle,
   payoutStats,
 } from './db.js'
 import { loadEnv, poolUsd, supabaseConfigured, xBearer, xPullEnabled } from './env.js'
@@ -63,7 +65,9 @@ function readBody(req) {
       try {
         resolve(JSON.parse(raw))
       } catch {
-        reject(new Error('Invalid JSON'))
+        const err = new Error('Invalid JSON')
+        err.status = 400
+        reject(err)
       }
     })
     req.on('error', reject)
@@ -113,8 +117,9 @@ function withScores(store, extra = {}) {
 }
 
 async function persistAfterLink(handle) {
+  const clean = normHandle(handle)
   const store = await loadStore()
-  const mine = store.tweets.filter((t) => t.handle === String(handle || '').replace(/^@/, ''))
+  const mine = store.tweets.filter((t) => normHandle(t.handle) === clean)
   if (mine.length) await upsertTweets(mine)
 }
 
@@ -154,9 +159,21 @@ async function refresh({ query, mode = 'manual' } = {}) {
   return withScores(next, { pulled: fresh.length })
 }
 
+function requestPath(req) {
+  const raw = req.url || '/'
+  let path = '/'
+  try {
+    path = new URL(raw, `http://${req.headers.host || 'localhost'}`).pathname
+  } catch {
+    path = String(raw).split('?')[0] || '/'
+  }
+  if (path === '/api' || path.startsWith('/api/')) return path
+  return path === '/' ? '/api' : `/api${path.startsWith('/') ? path : `/${path}`}`
+}
+
 export async function handleApi(req, res) {
   const url = new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`)
-  const path = url.pathname
+  const path = requestPath(req)
 
   try {
     if (req.method === 'GET' && path === '/api/admin/me') {
@@ -212,7 +229,10 @@ export async function handleApi(req, res) {
     if (req.method === 'POST' && path === '/api/payouts/send') {
       if (!isAdminRequest(req)) return denyDev(res)
       const body = await readBody(req)
-      const ids = Array.isArray(body.ids) ? body.ids : body.id ? [body.id] : []
+      const ids = (Array.isArray(body.ids) ? body.ids : body.id ? [body.id] : [])
+        .map((id) => String(id || '').trim())
+        .filter(Boolean)
+        .slice(0, 40)
       if (!ids.length) return send(res, 400, { error: 'Need a payout id.' })
       const pool = poolUsd()
       const detailed = await listPayoutsDetailed(pool)
@@ -232,6 +252,9 @@ export async function handleApi(req, res) {
 
     if (req.method === 'POST' && path === '/api/users/link') {
       const body = await readBody(req)
+      if (!isXHandle(body.handle)) {
+        return send(res, 400, { error: 'Need a valid X handle.' })
+      }
       if (!isSolanaAddress(body.wallet)) {
         return send(res, 400, { error: 'Need a Solana wallet address.' })
       }
@@ -329,16 +352,9 @@ export async function handleApi(req, res) {
       if (!tweet) {
         return send(res, 404, { error: 'Tweet not found yet. Paste the x.com/status URL a minute after you post.' })
       }
-      const claimed = String(body.handle || '').replace(/^@/, '').toLowerCase()
-      if (claimed && tweet.handle.toLowerCase() !== claimed) {
+      const claimed = normHandle(body.handle)
+      if (claimed && normHandle(tweet.handle) !== claimed) {
         return send(res, 403, { error: 'That tweet is not from the linked X handle.' })
-      }
-      if (body.wallet && tweet.handle && (!claimed || tweet.handle.toLowerCase() === claimed)) {
-        try {
-          await linkWallet(tweet.handle, body.wallet)
-        } catch (err) {
-          if (err.status !== 409) throw err
-        }
       }
       const store = await upsertTweets([tweet])
       const scored = scoreTweet(
