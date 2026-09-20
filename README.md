@@ -29,7 +29,7 @@ The tweet is the claim ticket. The linked Solana wallet is where the money lands
 | --- | --- |
 | **Ticker** | `$TWEK` |
 | **Official X** | [@Twek_App](https://x.com/Twek_App) |
-| **Contract** | [`3WUztmmgYpJQATczBBaqwNxdFoUQXkoTraoPGaxBpump`](https://pump.fun/coin/3WUztmmgYpJQATczBBaqwNxdFoUQXkoTraoPGaxBpump) |
+| **Contract** | [`Eda7DAHso12o3KMoUPbQuW4EM6xnWqatxvbX18zNpump`](https://pump.fun/coin/Eda7DAHso12o3KMoUPbQuW4EM6xnWqatxvbX18zNpump) |
 | **Chain** | Solana |
 | **Min payout** | `$0.50` (dust is skipped) |
 | **Hourly pool** | `TWEK_POOL_USD` (default `$50`) |
@@ -319,7 +319,7 @@ Suggested go-live order: **host → token + CA → one official `$TWEK` tweet fr
 | X search | **Live** (`X_PULL=1`). Pause with `off`. |
 | Payment split + Mark paid | Ready |
 | Automatic on-chain send | Not built |
-| Contract address | `3WUztmmgYpJQATczBBaqwNxdFoUQXkoTraoPGaxBpump` |
+| Contract address | `Eda7DAHso12o3KMoUPbQuW4EM6xnWqatxvbX18zNpump` |
 
 ---
 
