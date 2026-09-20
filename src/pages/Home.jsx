@@ -151,7 +151,10 @@ function LiveBoard() {
       {error && <p className="mb-4 text-sm text-signal">{error}</p>}
       {list.length === 0 ? (
         <div className="panel p-5 text-sm leading-6 text-mute">
-          No live posts yet. X search is paused until launch.
+          No live posts yet.{' '}
+          {pull.enabled
+            ? 'Pull now on the board after the official $TWEK tweet.'
+            : 'X search is paused.'}
         </div>
       ) : (
         <div key={filter} className="stagger fade-swap grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

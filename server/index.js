@@ -206,6 +206,7 @@ export async function handleApi(req, res) {
         ok: true,
         configured: configured(),
         db: 'supabase',
+        pull: xPullEnabled(),
         tweets: store.tweets.length,
         payouts: await payoutStats(),
       })
@@ -335,7 +336,7 @@ export async function handleApi(req, res) {
       const body = await readBody(req)
       if (!xPullEnabled()) {
         return send(res, 503, {
-          error: 'X search is paused until launch. Tweets are not looked up and credits are not spent.',
+          error: 'X search is paused (X_PULL=off). Tweets are not looked up and credits are not spent.',
         })
       }
       if (!configured()) {
@@ -390,6 +391,6 @@ if (!process.env.VERCEL) {
     }, PULL_MINUTES * 60_000)
     console.log(`X pull: manual first, then every ${PULL_MINUTES}m, max ${PULL_MAX}, since_id on`)
   } else {
-    console.log('X pull: paused (X_PULL=0). Search and lookups are off. Credits stay put.')
+    console.log('X pull: paused (X_PULL=off). Search and lookups are off. Credits stay put.')
   }
 }

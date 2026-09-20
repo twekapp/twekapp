@@ -78,7 +78,7 @@ export function Explore() {
           <p className="mt-2 max-w-[54ch] text-sm leading-6 text-mute">
             {pull.enabled
               ? `Real posts from X. After the first pull we check every ${pull.everyMinutes}m for new tweets only, ${pull.max} at a time.`
-              : 'X search is paused until launch. Live $TWEK posts are not pulled, so credits stay put.'}
+              : 'X search is paused. Live $TWEK posts are not pulled, so credits stay put.'}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
@@ -139,7 +139,7 @@ export function Explore() {
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-mute">Analyze a post</p>
           <p className="mt-1 text-sm text-mute">
-            Paste text now. No X credits. Live search stays off until launch.
+            Paste text now. No X credits. Live search stays off while X_PULL is off.
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
@@ -172,7 +172,7 @@ export function Explore() {
               ? pull.enabled
                 ? 'Paste a $TWEK post above to score it, or Pull now when you want a live search.'
                 : 'X search is paused. Paste a $TWEK post above to score it without spending credits.'
-              : 'Public posts land here after launch. Use Earn to connect a wallet and link X.'}
+              : 'Public $TWEK posts land here after a pull. Use Earn to connect a wallet and link X.'}
           </p>
         </div>
       ) : (

@@ -180,7 +180,7 @@ Add `localhost:5173` (and later the real domain) in Privy → allowed origins / 
 | Variable | Required | Notes |
 | --- | --- | --- |
 | `X_BEARER_TOKEN` | for live X | X developer portal → app → Keys → Bearer. Not the Privy X login. |
-| `X_PULL` | yes | `0` = search off (no credit spend). `1` = live `$TWEK` pull. |
+| `X_PULL` | yes | `1` = live `$TWEK` pull. `off` = pause (no credit spend). |
 | `X_PULL_MAX` | no | Tweets per pull. Minimum 10 (X API). Default `10`. |
 | `X_PULL_MINUTES` | no | Auto interval after the first manual pull. Default `30`. |
 | `SUPABASE_URL` | yes | Project URL |
@@ -190,7 +190,7 @@ Add `localhost:5173` (and later the real domain) in Privy → allowed origins / 
 | `TWEK_COOKIE_SECURE` | prod | Set `1` behind HTTPS (or `NODE_ENV=production`). |
 | `API_PORT` | no | Default `8787`. |
 
-Keep **`X_PULL=0`** until the token and site are live. Search costs X credits (~$0.005 per tweet read). After the first Pull now, auto-pull runs every `X_PULL_MINUTES` with `since_id`.
+Search is **live** (`X_PULL=1`). Pause with `X_PULL=off`. Each pull costs X credits (~$0.005 per tweet read). After the first Pull now, auto-pull runs every `X_PULL_MINUTES` with `since_id` (local Node only).
 
 ---
 
@@ -289,10 +289,10 @@ The app is set up for [Vercel](https://vercel.com): Vite build + one serverless 
 | Name | Value |
 | --- | --- |
 | `VITE_PRIVY_APP_ID` | Privy app id |
-| `X_PULL` | `0` until launch |
+| `X_PULL` | `1` |
 | `X_PULL_MAX` | `10` |
 | `X_PULL_MINUTES` | `30` |
-| `X_BEARER_TOKEN` | X bearer (ok to add now; unused while `X_PULL=0`) |
+| `X_BEARER_TOKEN` | X bearer |
 | `SUPABASE_URL` | Project URL |
 | `SUPABASE_SERVICE_ROLE_KEY` | service_role only |
 | `TWEK_ADMIN_KEY` | same Dev key as local |
@@ -302,9 +302,9 @@ The app is set up for [Vercel](https://vercel.com): Vite build + one serverless 
 
 4. Deploy. Open `/api/health` — expect `"db":"supabase"`.
 5. Privy → add the Vercel domain (`*.vercel.app` and later the real domain) to allowed origins / redirect URLs.
-6. Contract is already in `CONFIG.ca`. After Vercel deploys this commit, the site shows the CA. Keep `X_PULL=0` until launch.
+6. Contract is already in `CONFIG.ca`. Search is live (`X_PULL=1`). Pause with `X_PULL=off`.
 
-Vercel has **no always-on timer**. Auto X pull every 30 minutes does not run there. Until launch that is what you want (`X_PULL=0`). After go-live, Pull now still works; add a Vercel Cron later if you want the interval.
+Vercel has **no always-on timer**. Auto X pull every 30 minutes does not run there. Pull now still works; add a Vercel Cron later if you want the interval.
 
 Suggested go-live order: **host → token + CA → one official `$TWEK` tweet from [@Twek_App](https://x.com/Twek_App) → `X_PULL=1` → one Pull now → pay the first row by hand**.
 
@@ -316,7 +316,7 @@ Suggested go-live order: **host → token + CA → one official `$TWEK` tweet fr
 | --- | --- |
 | UI + wallet connect | Ready |
 | Board + scorer + Supabase | Ready |
-| X search | Built, **paused** (`X_PULL=0`) until launch |
+| X search | **Live** (`X_PULL=1`). Pause with `off`. |
 | Payment split + Mark paid | Ready |
 | Automatic on-chain send | Not built |
 | Contract address | `3WUztmmgYpJQATczBBaqwNxdFoUQXkoTraoPGaxBpump` |

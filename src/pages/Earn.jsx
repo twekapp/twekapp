@@ -60,7 +60,7 @@ export function Earn() {
       return
     }
     if (!pull.enabled) {
-      setNote('X lookup is paused until launch. Post on X, then come back after go-live.')
+      setNote('X lookup is paused. Set X_PULL=1 to search.')
       return
     }
     setNote('Looking the tweet up on X…')

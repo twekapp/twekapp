@@ -52,8 +52,9 @@ export function poolUsd() {
 }
 
 export function xPullEnabled() {
-  const v = String(process.env.X_PULL ?? '0').trim().toLowerCase()
-  return v === '1' || v === 'true' || v === 'on'
+  const v = String(process.env.X_PULL ?? '1').trim().toLowerCase()
+  if (v === 'off' || v === 'false' || v === 'pause') return false
+  return true
 }
 
 loadEnv()
