@@ -231,8 +231,8 @@ export function AuthProvider({ children }) {
       config={{
         appearance: {
           theme: 'dark',
-          accentColor: '#ff5a1f',
-          logo: '/TWEKPFP.jpg',
+          accentColor: '#78a9bf',
+          logo: '/RYIOTPFP.png',
           landingHeader: 'Connect to RYIOT',
           walletChainType: 'solana-only',
           showWalletLoginFirst: true,

@@ -39,7 +39,7 @@ export function FlowDiagram() {
             key={`${edge.id}-pulse`}
             d={edge.d}
             fill="none"
-            stroke="#ff5a1f"
+            stroke="#78a9bf"
             strokeWidth="2.4"
             strokeLinecap="round"
             className="flow-pulse"
@@ -58,7 +58,7 @@ export function FlowDiagram() {
                 <mpath href={`#${edge.id}`} />
               </animateMotion>
             </circle>,
-            <circle key={`${edge.id}-b`} r="2.2" fill="#ff5a1f" opacity="0.85" className="flow-dot">
+            <circle key={`${edge.id}-b`} r="2.2" fill="#78a9bf" opacity="0.85" className="flow-dot">
               <animateMotion dur={`${edge.dur}s`} begin={`${edge.delay + 0.9}s`} repeatCount="indefinite">
                 <mpath href={`#${edge.id}`} />
               </animateMotion>

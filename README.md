@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/RYIOTPFP.jpg" width="128" height="128" alt="RYIOT" />
+  <img src="public/RYIOTPFP.png" width="128" height="128" alt="RYIOT" />
 </p>
 
 <h1 align="center">RYIOT</h1>
@@ -272,7 +272,7 @@ src/                 React app
   providers/         Privy
 server/              Node API, scorer, Supabase, X client
 supabase/schema.sql  Tables + RLS + revoke
-public/RYIOTPFP.jpg   Brand
+public/RYIOTPFP.png   Brand
 scripts/dev.mjs      API + Vite together
 ```
 
