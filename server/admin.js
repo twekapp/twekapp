@@ -3,11 +3,11 @@ import { loadEnv } from './env.js'
 
 loadEnv()
 
-const COOKIE = 'twek_admin'
+const COOKIE = process.env.RYIOT_ADMIN_KEY ? 'ryiot_admin' : 'twek_admin'
 const TTL_MS = 30 * 24 * 60 * 60 * 1000
 
 export function adminKey() {
-  return (process.env.TWEK_ADMIN_KEY || '').trim()
+  return (process.env.RYIOT_ADMIN_KEY || process.env.TWEK_ADMIN_KEY || '').trim()
 }
 
 export function adminConfigured() {
@@ -59,7 +59,7 @@ export function adminCookieHeader(token, maxAgeSec) {
     'SameSite=Lax',
     `Max-Age=${maxAgeSec}`,
   ]
-  if (process.env.TWEK_COOKIE_SECURE === '1' || process.env.NODE_ENV === 'production') {
+  if (process.env.RYIOT_COOKIE_SECURE === '1' || process.env.TWEK_COOKIE_SECURE === '1' || process.env.NODE_ENV === 'production') {
     parts.push('Secure')
   }
   return parts.join('; ')

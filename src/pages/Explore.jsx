@@ -74,11 +74,11 @@ export function Explore() {
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-signal">Board</p>
-          <h1 className="mt-2 text-4xl font-extrabold tracking-tight">Live $TWEK posts</h1>
+          <h1 className="mt-2 text-4xl font-extrabold tracking-tight">Live $RYIOT posts</h1>
           <p className="mt-2 max-w-[54ch] text-sm leading-6 text-mute">
             {pull.enabled
               ? `Real posts from X. After the first pull we check every ${pull.everyMinutes}m for new tweets only, ${pull.max} at a time.`
-              : 'X search is paused. Live $TWEK posts are not pulled, so credits stay put.'}
+              : 'X search is paused. Live $RYIOT posts are not pulled, so credits stay put.'}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
@@ -118,7 +118,7 @@ export function Explore() {
         <div className="panel mb-6 p-5">
           <p className="font-semibold">X stream is waiting on a bearer token</p>
           <p className="mt-2 text-sm leading-6 text-mute">
-            Privy login is separate. To read public $TWEK posts, add an X API v2 app-only bearer as{' '}
+            Privy login is separate. To read public $RYIOT posts, add an X API v2 app-only bearer as{' '}
             <span className="font-mono text-cream">X_BEARER_TOKEN</span> in <span className="font-mono">.env.local</span>,
             then restart. Developer portal → your app → Keys → Bearer Token.
           </p>
@@ -152,7 +152,7 @@ export function Explore() {
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value.slice(0, 280))}
-            placeholder="Tweet text, must include $TWEK"
+            placeholder="Tweet text, must include $RYIOT"
             rows={2}
             className="min-h-[44px] flex-1 resize-y rounded-xl border border-cream/12 bg-transparent px-4 py-2.5 text-sm outline-none"
           />
@@ -170,9 +170,9 @@ export function Explore() {
           <p className="mt-2 text-sm leading-6 text-mute">
             {admin
               ? pull.enabled
-                ? 'Paste a $TWEK post above to score it, or Pull now when you want a live search.'
-                : 'X search is paused. Paste a $TWEK post above to score it without spending credits.'
-              : 'Public $TWEK posts land here after a pull. Use Earn to connect a wallet and link X.'}
+                ? 'Paste a $RYIOT post above to score it, or Pull now when you want a live search.'
+                : 'X search is paused. Paste a $RYIOT post above to score it without spending credits.'
+              : 'Public $RYIOT posts land here after a pull. Use Earn to connect a wallet and link X.'}
           </p>
         </div>
       ) : (

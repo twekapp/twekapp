@@ -7,7 +7,7 @@ import { CopyCa } from './CopyCa'
 import { SocialX } from './SocialX'
 import { PageEnter } from './PageEnter'
 
-const SIDEBAR_KEY = 'twek-sidebar-open'
+const SIDEBAR_KEY = 'ryiot-sidebar-open'
 
 const links = [
   { to: '/', label: 'Home', icon: IconHome, end: true },
@@ -66,9 +66,9 @@ export function Layout() {
         }`}
       >
         <div className={`flex h-14 items-center ${open ? 'px-4' : 'justify-center px-2'}`}>
-          <Link to="/" className="flex items-center gap-2.5 text-cream" aria-label="TWEK home">
+          <Link to="/" className="flex items-center gap-2.5 text-cream" aria-label="RYIOT home">
             <Logo className="h-7 w-7 shrink-0" />
-            {open && <span className="display text-base font-extrabold tracking-tight">TWEK</span>}
+            {open && <span className="display text-base font-extrabold tracking-tight">RYIOT</span>}
           </Link>
         </div>
 

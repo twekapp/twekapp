@@ -41,7 +41,7 @@ function send(res, status, body, extraHeaders = {}) {
 }
 
 function denyDev(res) {
-  return send(res, 401, { error: 'Dev only. Unlock Board with TWEK_ADMIN_KEY.' })
+  return send(res, 401, { error: 'Dev only. Unlock Board with RYIOT_ADMIN_KEY.' })
 }
 
 function readBody(req) {
@@ -380,7 +380,7 @@ if (!process.env.VERCEL) {
 
   server.listen(PORT, () => {
     console.log(
-      `TWEK api http://localhost:${PORT}  x=${configured() ? 'on' : 'missing X_BEARER_TOKEN'}  db=${dbStatus.db}`,
+      `RYIOT api http://localhost:${PORT}  x=${configured() ? 'on' : 'missing X_BEARER_TOKEN'}  db=${dbStatus.db}`,
     )
     if (!dbStatus.ok) console.warn(dbStatus.error)
   })

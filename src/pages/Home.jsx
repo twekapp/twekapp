@@ -36,7 +36,7 @@ function Hero({ payouts, stats }) {
           Live bounty
         </p>
         <h1 className="mt-5 text-[44px] font-extrabold leading-[0.95] tracking-[-0.04em] sm:text-[68px]">
-          Post $TWEK.
+          Post $RYIOT.
           <br />
           Cash the tweet.
         </h1>
@@ -86,7 +86,7 @@ function Hero({ payouts, stats }) {
 function HowItWorks() {
   const steps = [
     { n: '01', title: 'Connect wallet', body: 'Privy opens Phantom or Solflare — your main Solana wallet.' },
-    { n: '02', title: 'Tweet $TWEK', body: 'Original posts rank higher than raids. One cashtag is the claim ticket.' },
+    { n: '02', title: 'Tweet $RYIOT', body: 'Original posts rank higher than raids. One cashtag is the claim ticket.' },
     { n: '03', title: 'Get paid', body: 'Hourly settlement in dollars. Dust under $0.50 is skipped.' },
   ]
   return (
@@ -121,7 +121,7 @@ function LiveBoard() {
       <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-signal">The board</p>
-          <h2 className="mt-1 text-3xl font-extrabold tracking-tight">Live $TWEK posts</h2>
+          <h2 className="mt-1 text-3xl font-extrabold tracking-tight">Live $RYIOT posts</h2>
           <p className="mt-2 text-sm text-mute">
             {configured
               ? `${live.seen} on the board · ${live.pay} worth paying · ${live.skip} skipped${
@@ -153,7 +153,7 @@ function LiveBoard() {
         <div className="panel p-5 text-sm leading-6 text-mute">
           No live posts yet.{' '}
           {pull.enabled
-            ? 'Pull now on the board after the official $TWEK tweet.'
+            ? 'Pull now on the board after the official $RYIOT tweet.'
             : 'X search is paused.'}
         </div>
       ) : (

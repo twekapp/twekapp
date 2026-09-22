@@ -77,7 +77,7 @@ const FIELDS =
   '&user.fields=username,name,created_at,public_metrics,verified,verified_type,profile_image_url'
 
 export async function searchTweets({ query, max = 10, sinceId } = {}) {
-  const q = query || '$TWEK -is:retweet'
+  const q = query || '$RYIOT -is:retweet'
   const count = Math.min(100, Math.max(10, Number(max) || 10))
   let path = `/tweets/search/recent?query=${encodeURIComponent(q)}&max_results=${count}&${FIELDS}`
   if (sinceId) path += `&since_id=${encodeURIComponent(sinceId)}`

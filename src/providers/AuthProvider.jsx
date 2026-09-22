@@ -233,7 +233,7 @@ export function AuthProvider({ children }) {
           theme: 'dark',
           accentColor: '#ff5a1f',
           logo: '/TWEKPFP.jpg',
-          landingHeader: 'Connect to TWEK',
+          landingHeader: 'Connect to RYIOT',
           walletChainType: 'solana-only',
           showWalletLoginFirst: true,
           walletList: SOLANA_WALLET_LIST,

@@ -9,10 +9,10 @@ export function Footer() {
         <div>
           <Link to="/" className="inline-flex items-center gap-2 text-cream">
             <Logo className="h-6 w-6" />
-            <span className="display text-sm font-extrabold">TWEK</span>
+            <span className="display text-sm font-extrabold">RYIOT</span>
           </Link>
           <p className="mt-3 max-w-sm text-sm leading-6 text-mute">
-            A public bounty on a cashtag. Tweet $TWEK, get scored, get paid.
+            A public bounty on a cashtag. Tweet $RYIOT, get scored, get paid.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-mute">
@@ -39,7 +39,7 @@ export function Footer() {
       </div>
       <div className="border-t border-cream/8">
         <p className="mx-auto max-w-[1200px] px-4 py-4 text-xs text-mute/70 sm:px-6">
-          TWEK © 2026 · Not affiliated with X Corp.
+          RYIOT © 2026 · Not affiliated with X Corp.
         </p>
       </div>
     </footer>

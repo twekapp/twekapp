@@ -8,7 +8,7 @@ const edges = [
 
 const nodes = [
   { x: 80, y: 72, label: 'Dev wallet', icon: IconVault },
-  { x: 80, y: 228, label: 'Tweet $TWEK', icon: IconTweet },
+  { x: 80, y: 228, label: 'Tweet $RYIOT', icon: IconTweet },
   { x: 270, y: 228, label: 'Scored', icon: IconScore },
   { x: 470, y: 150, label: 'Reward pool', icon: IconPool },
   { x: 660, y: 150, label: 'Swap to USD', icon: IconUsd },
@@ -28,7 +28,7 @@ export function FlowDiagram() {
         viewBox="0 24 930 274"
         className="flow-diagram mx-auto block h-auto w-full min-w-[860px] text-cream"
         role="img"
-        aria-label="Money flow from the Dev wallet and scored $TWEK tweets to a payout in your wallet"
+        aria-label="Money flow from the Dev wallet and scored $RYIOT tweets to a payout in your wallet"
       >
         {edges.map((edge) => (
           <path key={`${edge.id}-rail`} d={edge.d} fill="none" stroke="currentColor" strokeOpacity="0.18" strokeWidth="1.5" />

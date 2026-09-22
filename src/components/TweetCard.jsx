@@ -64,7 +64,7 @@ export function TweetCard({ tweet, compactCard = false, onMark }) {
             Open
           </a>
         ) : (
-          <span className="text-[11px] font-semibold text-signal">$TWEK</span>
+          <span className="text-[11px] font-semibold text-signal">$RYIOT</span>
         )}
       </div>
       {onMark && !compactCard && (

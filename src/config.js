@@ -1,11 +1,11 @@
 export const CONFIG = {
-  name: 'TWEK',
-  ticker: '$TWEK',
-  handle: 'Twek_App',
-  xUrl: 'https://x.com/Twek_App',
+  name: 'RYIOT',
+  ticker: '$RYIOT',
+  handle: 'RYIOT_App',
+  xUrl: 'https://x.com/RYIOT_App',
   ca: 'Eda7DAHso12o3KMoUPbQuW4EM6xnWqatxvbX18zNpump',
   tweetTemplate:
-    'Just tweeted $TWEK and they pay you for it. Tweet the ticker, get paid.',
+    'Just tweeted $RYIOT and they pay you for it. Tweet the ticker, get paid.',
 }
 
 export const tweetIntentUrl = (text = CONFIG.tweetTemplate) =>

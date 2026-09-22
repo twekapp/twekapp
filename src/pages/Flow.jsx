@@ -5,7 +5,7 @@ import { FlowDiagram } from '../components/FlowDiagram'
 const path = [
   {
     n: '01',
-    title: 'You tweet $TWEK',
+    title: 'You tweet $RYIOT',
     body: 'Public post, your words, cashtag in the body. That tweet is the claim ticket. No form.',
   },
   {
@@ -16,12 +16,12 @@ const path = [
   {
     n: '03',
     title: 'The Dev wallet funds the pool',
-    body: 'Payouts leave the TWEK Dev wallet. No treasury hop. That wallet is the budget for scored tweets.',
+    body: 'Payouts leave the RYIOT Dev wallet. No treasury hop. That wallet is the budget for scored tweets.',
   },
   {
     n: '04',
     title: 'Dev wallet turns it into dollars',
-    body: 'Funds sit as SOL or $TWEK first. We swap to USD so you get cash, not a bag you still have to sell.',
+    body: 'Funds sit as SOL or $RYIOT first. We swap to USD so you get cash, not a bag you still have to sell.',
   },
   {
     n: '05',
@@ -90,7 +90,7 @@ export function Flow() {
           <ul className="mt-3 grid gap-2 text-sm leading-6 text-cream/75">
             <li>No cashtag, or a private / deleted tweet</li>
             <li>Wallet in, but X never linked</li>
-            <li>Copy-paste raids and empty “gm $TWEK”</li>
+            <li>Copy-paste raids and empty “gm $RYIOT”</li>
             <li>The slice is dust under fifty cents</li>
           </ul>
         </div>

@@ -47,7 +47,7 @@ export function supabaseConfigured() {
 }
 
 export function poolUsd() {
-  const n = Number(process.env.TWEK_POOL_USD || 50)
+  const n = Number(process.env.RYIOT_POOL_USD || process.env.TWEK_POOL_USD || 50)
   return Number.isFinite(n) && n > 0 ? n : 50
 }
 

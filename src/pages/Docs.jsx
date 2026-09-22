@@ -8,7 +8,7 @@ const toc = [
   { href: '#claim', label: 'When money arrives' },
   { href: '#flow', label: 'Where the money comes from' },
   { href: '#detect', label: 'How we find tweets' },
-  { href: '#token', label: '$TWEK' },
+  { href: '#token', label: '$RYIOT' },
   { href: '#legal', label: 'Legal' },
 ]
 
@@ -17,10 +17,10 @@ export function Docs() {
     <main className="mx-auto max-w-[760px] px-4 py-10 sm:px-6">
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-signal">Docs</p>
       <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">
-        How tweeting $TWEK pays you
+        How tweeting $RYIOT pays you
       </h1>
       <p className="mt-4 text-[16px] leading-7 text-mute">
-        TWEK is a public bounty. People trade the token, fees go into a reward pool, and anyone who
+        RYIOT is a public bounty. People trade the token, fees go into a reward pool, and anyone who
         posts <span className="text-cream">{CONFIG.ticker}</span> on X can take a share of that pool
         in dollars. You do not need a campaign manager, a form, or a referral code. The tweet is the
         claim.
@@ -45,14 +45,14 @@ export function Docs() {
         </p>
         <ol className="stagger mt-6 grid gap-3">
           <Step n="1" title="Connect a wallet">
-            Open TWEK and hit <span className="text-cream">Connect wallet</span>. Use Phantom or
+            Open RYIOT and hit <span className="text-cream">Connect wallet</span>. Use Phantom or
             Solflare — your main Solana wallet. That address is where dollars land.
           </Step>
           <Step n="2" title="Link the X account you will tweet from">
             After the wallet is in, link X. We pay the handle that wrote the tweet, not a wallet
             someone pastes later. If you tweet from @you, @you is who gets paid.
           </Step>
-          <Step n="3" title="Post a real tweet that includes $TWEK">
+          <Step n="3" title="Post a real tweet that includes $RYIOT">
             Write something original about the project and put{' '}
             <span className="text-cream">{CONFIG.ticker}</span> in the text. That cashtag is the
             ticket. No cashtag, no score. You can compose it on the{' '}
@@ -94,7 +94,7 @@ export function Docs() {
             <ul className="mt-2 grid gap-1.5 text-sm leading-6 text-cream/75">
               <li>No {CONFIG.ticker} in the tweet</li>
               <li>The same sentence posted by twenty accounts</li>
-              <li>Reply-spam, quote-spam, or empty “gm $TWEK”</li>
+              <li>Reply-spam, quote-spam, or empty “gm $RYIOT”</li>
               <li>Private accounts, deleted tweets, or a handle we did not link</li>
             </ul>
           </Callout>
@@ -176,7 +176,7 @@ export function Docs() {
         </p>
         <ol className="stagger mt-6 grid gap-3">
           <Step n="A" title="The Dev wallet holds the budget">
-            Payouts leave the TWEK Dev wallet. No treasury hop. If that wallet is quiet, the pool
+            Payouts leave the RYIOT Dev wallet. No treasury hop. If that wallet is quiet, the pool
             is smaller. If it is funded, the bounty grows.
           </Step>
           <Step n="B" title="Dev wallet swaps to dollars">

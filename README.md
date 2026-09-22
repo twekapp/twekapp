@@ -1,16 +1,16 @@
 <p align="center">
-  <img src="public/TWEKPFP.jpg" width="128" height="128" alt="TWEK" />
+  <img src="public/RYIOTPFP.jpg" width="128" height="128" alt="RYIOT" />
 </p>
 
-<h1 align="center">TWEK</h1>
+<h1 align="center">RYIOT</h1>
 
 <p align="center">
-  <strong>Post <code>$TWEK</code>. Get scored. Get paid.</strong><br />
+  <strong>Post <code>$RYIOT</code>. Get scored. Get paid.</strong><br />
   A public bounty on a cashtag — original tweets take a slice of a live dollar pool.
 </p>
 
 <p align="center">
-  <a href="https://x.com/Twek_App"><img alt="X" src="https://img.shields.io/badge/X-@Twek__App-111111?style=flat-square" /></a>
+  <a href="https://x.com/RYIOT_App"><img alt="X" src="https://img.shields.io/badge/X-@RYIOT_App-111111?style=flat-square" /></a>
   <img alt="Vite" src="https://img.shields.io/badge/Vite-8-646CFF?style=flat-square" />
   <img alt="React" src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square" />
   <img alt="Solana" src="https://img.shields.io/badge/Solana-Privy-14F195?style=flat-square" />
@@ -21,18 +21,18 @@
 
 ## What it is
 
-TWEK is a tweet-to-earn app on Solana. People connect a wallet, tweet the cashtag **`$TWEK`**, and a scorer decides if that post is worth a share of this hour’s pool. Dollars leave the **Dev wallet**. There is no treasury hop, no form, no referral code.
+RYIOT is a tweet-to-earn app on Solana. People connect a wallet, tweet the cashtag **`$RYIOT`**, and a scorer decides if that post is worth a share of this hour’s pool. Dollars leave the **Dev wallet**. There is no treasury hop, no form, no referral code.
 
 The tweet is the claim ticket. The linked Solana wallet is where the money lands. X is only how we match the author.
 
 | | |
 | --- | --- |
-| **Ticker** | `$TWEK` |
-| **Official X** | [@Twek_App](https://x.com/Twek_App) |
+| **Ticker** | `$RYIOT` |
+| **Official X** | [@RYIOT_App](https://x.com/RYIOT_App) |
 | **Contract** | [`Eda7DAHso12o3KMoUPbQuW4EM6xnWqatxvbX18zNpump`](https://pump.fun/coin/Eda7DAHso12o3KMoUPbQuW4EM6xnWqatxvbX18zNpump) |
 | **Chain** | Solana |
 | **Min payout** | `$0.50` (dust is skipped) |
-| **Hourly pool** | `TWEK_POOL_USD` (default `$50`) |
+| **Hourly pool** | `RYIOT_POOL_USD` (default `$50`) |
 
 ---
 
@@ -40,7 +40,7 @@ The tweet is the claim ticket. The linked Solana wallet is where the money lands
 
 ```mermaid
 flowchart LR
-  A[Tweet $TWEK] --> B[X search / register]
+  A[Tweet $RYIOT] --> B[X search / register]
   B --> C[Score]
   C -->|worth paying| D[Reward pool]
   C -->|watch / skip| E[Board only]
@@ -50,7 +50,7 @@ flowchart LR
 
 1. Connect a Solana wallet (Phantom, Solflare, or Privy embedded).
 2. Link the X account you will tweet from.
-3. Post a public tweet that includes `$TWEK`.
+3. Post a public tweet that includes `$RYIOT`.
 4. We store the tweet id once and score it (originality, engagement, recency, trust).
 5. Worth-paying posts split this hour’s pool by weight.
 6. Dev sends from the Dev wallet, then marks the row paid (tx optional).
@@ -64,7 +64,7 @@ On-chain send is **not automatic** yet. Payment records the send. The Dev wallet
 | Route | Page | What it does |
 | --- | --- | --- |
 | `/` | Home | Live bounty, board preview, hourly pool |
-| `/explore` | Board | Scored `$TWEK` posts · Dev pull / paste / mark |
+| `/explore` | Board | Scored `$RYIOT` posts · Dev pull / paste / mark |
 | `/earn` | Earn | Compose, post on X, register a status URL |
 | `/payouts` | Payment | Pool split · queued / blocked / paid |
 | `/flow` | Flow | End-to-end money path |
@@ -81,7 +81,7 @@ On-chain send is **not automatic** yet. Payment records the send. The Dev wallet
 | Auth | [Privy](https://www.privy.io/) — Solana wallets + X |
 | API | Node `http` on `:8787`, proxied as `/api` |
 | Data | [Supabase](https://supabase.com/) (service role on the server only) |
-| X | Official API v2 app-only bearer · recent search `$TWEK` |
+| X | Official API v2 app-only bearer · recent search `$RYIOT` |
 | Scoring | Local scorer in `server/score.js` |
 
 Frontend never talks to Supabase. The browser only hits `/api`. RLS is on; `anon` / `authenticated` are revoked.
@@ -107,7 +107,7 @@ payout = pool × (weight / Σ weights of queued tweets)
 
 Hard rules:
 
-- No `$TWEK` in the body → skip
+- No `$RYIOT` in the body → skip
 - Copy-paste raids and near-duplicates get crushed
 - Posts older than ~3 days are for live attention, not archaeology
 - Brand-new empty handles rank worse
@@ -180,14 +180,14 @@ Add `localhost:5173` (and later the real domain) in Privy → allowed origins / 
 | Variable | Required | Notes |
 | --- | --- | --- |
 | `X_BEARER_TOKEN` | for live X | X developer portal → app → Keys → Bearer. Not the Privy X login. |
-| `X_PULL` | yes | `1` = live `$TWEK` pull. `off` = pause (no credit spend). |
+| `X_PULL` | yes | `1` = live `$RYIOT` pull. `off` = pause (no credit spend). |
 | `X_PULL_MAX` | no | Tweets per pull. Minimum 10 (X API). Default `10`. |
 | `X_PULL_MINUTES` | no | Auto interval after the first manual pull. Default `30`. |
 | `SUPABASE_URL` | yes | Project URL |
 | `SUPABASE_SERVICE_ROLE_KEY` | yes | **service_role** secret, not the anon key |
-| `TWEK_ADMIN_KEY` | yes | Board + Payment Dev unlock. HMAC cookie, 30 days. |
-| `TWEK_POOL_USD` | no | Hourly pool in dollars. Default `50`. |
-| `TWEK_COOKIE_SECURE` | prod | Set `1` behind HTTPS (or `NODE_ENV=production`). |
+| `RYIOT_ADMIN_KEY` | yes | Board + Payment Dev unlock. HMAC cookie, 30 days. |
+| `RYIOT_POOL_USD` | no | Hourly pool in dollars. Default `50`. |
+| `RYIOT_COOKIE_SECURE` | prod | Set `1` behind HTTPS (or `NODE_ENV=production`). |
 | `API_PORT` | no | Default `8787`. |
 
 Search is **live** (`X_PULL=1`). Pause with `X_PULL=off`. Each pull costs X credits (~$0.005 per tweet read). After the first Pull now, auto-pull runs every `X_PULL_MINUTES` with `since_id` (local Node only).
@@ -209,7 +209,7 @@ RLS is enabled. `anon` and `authenticated` have **no** grants. Only the server s
 
 ## Dev tools
 
-On **Board** and **Payment**, unlock with `TWEK_ADMIN_KEY`.
+On **Board** and **Payment**, unlock with `RYIOT_ADMIN_KEY`.
 
 Unlocked, you can:
 
@@ -227,10 +227,10 @@ Everyone else can browse the board and pool. They cannot mark tweets or send pay
 Query when pull is on:
 
 ```text
-$TWEK -is:retweet
+$RYIOT -is:retweet
 ```
 
-`#TWEK` is **not** used. That hashtag collides with unrelated “twek / twerk” posts and burns credits.
+`#RYIOT` is **not** used. We search for the cashtag `$RYIOT` to keep the focus on financial attention.
 
 | Mode | Spends X credits? |
 | --- | --- |
@@ -272,7 +272,7 @@ src/                 React app
   providers/         Privy
 server/              Node API, scorer, Supabase, X client
 supabase/schema.sql  Tables + RLS + revoke
-public/TWEKPFP.jpg   Brand
+public/RYIOTPFP.jpg   Brand
 scripts/dev.mjs      API + Vite together
 ```
 
@@ -295,9 +295,9 @@ The app is set up for [Vercel](https://vercel.com): Vite build + one serverless 
 | `X_BEARER_TOKEN` | X bearer |
 | `SUPABASE_URL` | Project URL |
 | `SUPABASE_SERVICE_ROLE_KEY` | service_role only |
-| `TWEK_ADMIN_KEY` | same Dev key as local |
-| `TWEK_POOL_USD` | `50` |
-| `TWEK_COOKIE_SECURE` | `1` |
+| `RYIOT_ADMIN_KEY` | same Dev key as local |
+| `RYIOT_POOL_USD` | `50` |
+| `RYIOT_COOKIE_SECURE` | `1` |
 | `NODE_ENV` | `production` (Vercel sets this) |
 
 4. Deploy. Open `/api/health` — expect `"db":"supabase"`.
@@ -306,7 +306,7 @@ The app is set up for [Vercel](https://vercel.com): Vite build + one serverless 
 
 Vercel has **no always-on timer**. Auto X pull every 30 minutes does not run there. Pull now still works; add a Vercel Cron later if you want the interval.
 
-Suggested go-live order: **host → token + CA → one official `$TWEK` tweet from [@Twek_App](https://x.com/Twek_App) → `X_PULL=1` → one Pull now → pay the first row by hand**.
+Suggested go-live order: **host → token + CA → one official `$RYIOT` tweet from [@RYIOT_App](https://x.com/RYIOT_App) → `X_PULL=1` → one Pull now → pay the first row by hand**.
 
 ---
 
@@ -325,11 +325,11 @@ Suggested go-live order: **host → token + CA → one official `$TWEK` tweet fr
 
 ## Disclaimer
 
-TWEK is a promotional bounty on a cashtag. It is not an offer of securities and is not affiliated with X Corp. Rewards can change or stop. Do not farm with bots, bought impressions, or inauthentic engagement. Fake tweets are not paid.
+RYIOT is a promotional bounty on a cashtag. It is not an offer of securities and is not affiliated with X Corp. Rewards can change or stop. Do not farm with bots, bought impressions, or inauthentic engagement. Fake tweets are not paid.
 
 ---
 
 <p align="center">
-  <a href="https://x.com/Twek_App">@Twek_App</a>
-  · © 2026 TWEK
+  <a href="https://x.com/RYIOT_App">@RYIOT_App</a>
+  · © 2026 RYIOT
 </p>

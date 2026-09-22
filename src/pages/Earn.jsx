@@ -6,11 +6,11 @@ import { useAuth } from '../providers/AuthProvider'
 import { registerTweet } from '../lib/api'
 import { useLiveTweets } from '../hooks/useLiveTweets'
 
-const STORAGE = 'twek-earn-v1'
+const STORAGE = 'ryiot-earn-v1'
 const SUGGESTIONS = [
-  'Just tweeted $TWEK and they pay you for it. Tweet the ticker, get paid.',
-  'The utility is the tweet. $TWEK scores $TWEK posts and pays dollars.',
-  'If you can post, you can earn. $TWEK',
+  'Just tweeted $RYIOT and they pay you for it. Tweet the ticker, get paid.',
+  'The utility is the tweet. $RYIOT scores $RYIOT posts and pays dollars.',
+  'If you can post, you can earn. $RYIOT',
 ]
 
 function loadMine() {
@@ -37,7 +37,7 @@ export function Earn() {
     () => mine.filter((t) => t.verdict === 'pay').length,
     [mine],
   )
-  const valid = text.includes('$TWEK')
+  const valid = text.includes('$RYIOT')
   const remaining = 280 - text.length
 
   async function register(source = 'composer') {
@@ -56,7 +56,7 @@ export function Earn() {
       return
     }
     if (source === 'composer' && !valid) {
-      setNote('Tweet must include $TWEK.')
+      setNote('Tweet must include $RYIOT.')
       return
     }
     if (!pull.enabled) {
@@ -86,19 +86,19 @@ export function Earn() {
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-signal">Earn</p>
       <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">Tweet. Get scored. Get paid.</h1>
       <p className="mt-4 max-w-xl text-mute">
-        Connect with Privy, post $TWEK, and we route dollars to the handle that wrote the tweet.
+        Connect with Privy, post $RYIOT, and we route dollars to the handle that wrote the tweet.
       </p>
 
       <div className="stagger mt-8 grid gap-3 sm:grid-cols-3">
         <Step n="01" title="Wallet" body="Connect your main Phantom or Solflare wallet, then link X." />
-        <Step n="02" title="Cashtag" body="Original $TWEK posts outrank raids and copy-paste." />
+        <Step n="02" title="Cashtag" body="Original $RYIOT posts outrank raids and copy-paste." />
         <Step n="03" title="Payout" body="Hourly settlement. Dust under $0.50 is skipped." />
       </div>
 
       <section className="panel mt-10 p-5 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <Avatar seed={xHandle || 'twek'} src={xAvatar} className="h-11 w-11" />
+            <Avatar seed={xHandle || 'ryiot'} src={xAvatar} className="h-11 w-11" />
             <div>
               <p className="text-sm font-semibold">{xHandle ? `@${xHandle}` : 'Not linked'}</p>
               <p className="text-xs text-mute">
@@ -129,7 +129,7 @@ export function Earn() {
         />
         <div className="mt-3 flex flex-wrap items-center justify-between gap-3 text-sm">
           <p className={valid ? 'text-gold' : 'text-signal'}>
-            {valid ? 'Cashtag detected' : 'Add $TWEK to qualify'}
+            {valid ? 'Cashtag detected' : 'Add $RYIOT to qualify'}
           </p>
           <p className={remaining < 20 ? 'text-signal' : 'text-mute'}>{remaining}</p>
         </div>
@@ -192,7 +192,7 @@ export function Earn() {
       <section className="mt-10">
         <h2 className="text-2xl font-extrabold tracking-tight">Your tweets</h2>
         {mine.length === 0 ? (
-          <p className="mt-3 text-sm text-mute">Nothing registered yet. Post $TWEK and come back.</p>
+          <p className="mt-3 text-sm text-mute">Nothing registered yet. Post $RYIOT and come back.</p>
         ) : (
           <ul className="stagger mt-4 grid gap-3">
             {mine.map((t) => (

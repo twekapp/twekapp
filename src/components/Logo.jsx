@@ -2,7 +2,7 @@ export function Logo({ className = 'h-7 w-7' }) {
   return (
     <img
       src="/TWEKPFP.jpg"
-      alt="TWEK"
+      alt="RYIOT"
       className={`block rounded-[22%] object-cover ${className}`}
     />
   )

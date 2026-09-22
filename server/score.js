@@ -1,20 +1,20 @@
 const RAID_LINES = [
-  'gm $twek',
-  'gn $twek',
-  'lfg $twek',
-  'wagmi $twek',
-  '$twek',
-  'buy $twek',
-  'send it $twek',
+  'gm $ryiot',
+  'gn $ryiot',
+  'lfg $ryiot',
+  'wagmi $ryiot',
+  '$ryiot',
+  'buy $ryiot',
+  'send it $ryiot',
 ]
 
-const CASHTAG = /\$twek\b/i
+const CASHTAG = /\$ryiot\b/i
 
 export function normalizeText(text) {
   return String(text || '')
     .toLowerCase()
     .replace(/https?:\/\/\S+/g, ' ')
-    .replace(/\$twek|#twek/gi, ' ')
+    .replace(/\$ryiot|#ryiot/gi, ' ')
     .replace(/[^a-z0-9\s]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim()
@@ -43,7 +43,7 @@ export function scoreTweet(tweet, peers = []) {
   const body = normalizeText(text)
   const words = tokens(text)
 
-  if (!hasCashtag) reasons.push('No $TWEK cashtag')
+  if (!hasCashtag) reasons.push('No $RYIOT cashtag')
   if (!body) reasons.push('Empty after stripping the ticker')
   if (body.length < 12) reasons.push('Too thin — basically just the ticker')
   if (/^(gm|gn|lfg|wagmi|moon|pump)(\s|$)/.test(body)) reasons.push('Raid filler (gm/lfg/wagmi)')
@@ -58,7 +58,7 @@ export function scoreTweet(tweet, peers = []) {
     copyHit = Math.max(copyHit, jaccard(words, tokens(other.text)))
   }
   if (raidHit > 0.72) reasons.push('Matches a raid / template line')
-  if (copyHit > 0.78) reasons.push('Near-duplicate of another $TWEK tweet')
+  if (copyHit > 0.78) reasons.push('Near-duplicate of another $RYIOT tweet')
 
   const originality = clamp(1 - Math.max(raidHit * 0.85, copyHit * 0.9, body.length < 12 ? 0.8 : 0), 0.05, 1)
 
